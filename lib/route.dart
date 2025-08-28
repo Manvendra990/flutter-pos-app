@@ -7,7 +7,6 @@ import 'package:posapp/pages/menuItems/addmenu.dart';
 import 'package:posapp/pages/menuItems/itemTable.dart';
 import 'package:posapp/pages/menuItems/menu.dart';
 import 'package:posapp/pages/operations/operationitems.dart';
-import 'package:posapp/dashbord.dart';
 import 'package:posapp/pages/report/categorys_summary.dart';
 import 'package:posapp/pages/report/item_summary.dart';
 import 'package:posapp/pages/report/orderreport.dart';
@@ -59,7 +58,7 @@ class _AppRouterState extends State<AppRouter> {
           case 'order-report':
             page = MainLayout(
               onNavigate: _handleNavigation,
-              child: Orderreport(),
+              child: OrderReport(),
             );
             break;
 
@@ -74,7 +73,7 @@ class _AppRouterState extends State<AppRouter> {
                   case 'order_summary':
             page = MainLayout(
               onNavigate: _handleNavigation,
-              child: Orderreport(),
+              child: OrderReport(),
             );
             break;
 
@@ -82,7 +81,7 @@ class _AppRouterState extends State<AppRouter> {
                   case 'item_summary':
             page = MainLayout(
               onNavigate: _handleNavigation,
-              child: ItemSummery(),
+              child: ItemSummary(),
             );
             break;
 
@@ -112,7 +111,7 @@ class _AppRouterState extends State<AppRouter> {
             );
             break;
 
-   case 'show_itemPage':
+          case 'show_itemPage':
             page = MainLayout(
               onNavigate: _handleNavigation,
               child: ShowItemsPage(),

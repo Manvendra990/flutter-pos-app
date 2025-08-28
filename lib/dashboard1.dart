@@ -42,6 +42,7 @@ class _POSDashboardState extends State<POSDashboard> with TickerProviderStateMix
   TextEditingController customerMobileController = TextEditingController();
   TextEditingController personCountController = TextEditingController();
 
+
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -131,6 +132,8 @@ class _POSDashboardState extends State<POSDashboard> with TickerProviderStateMix
     final tableNumber = int.tryParse(tableBarController.text) ?? 0;
     final users_count = int.tryParse(personCountController.text) ?? 0;
     final discount = double.tryParse(discountController.text) ?? 0;
+    final customerName = customerNameController.text;
+    final customerMobile = customerMobileController.text;
     final tax = 0;
 
     for (var entry in cartItems.entries) {
@@ -148,6 +151,8 @@ class _POSDashboardState extends State<POSDashboard> with TickerProviderStateMix
         "order_id": orderId,
         'parent_name': parent,
         "table_number": tableNumber,
+        "customer_name": customerName,
+        "customer_mobile": customerMobile,
         "person_count": users_count,
         'subitem_name': subItem,
         'item_count': quantity,
@@ -181,7 +186,10 @@ class _POSDashboardState extends State<POSDashboard> with TickerProviderStateMix
     PrinterHelper.printReceipt(
       cartItems: cartItems,
       shopName: "Burger Point",
-      gstNumber: "34434344434",
+      address: "Bu Jhansi",
+      maddres: "{ma pitambra foods kanpur road,jhansi}",
+      contact:'9999999999,7878787878',
+      FSSAINo:"123455664454545"
     );
     _showSuccessSnackbar("Receipt printed successfully!");
   }
@@ -375,25 +383,32 @@ class _POSDashboardState extends State<POSDashboard> with TickerProviderStateMix
                 ],
               ),
             ),
-            Expanded(
-              child: selectedItemGroup.isEmpty
-                  ? _buildEmptyMenuState()
-                  : LayoutBuilder(
-                      builder: (context, constraints) {
-                        int crossAxisCount = (constraints.maxWidth / 200).floor().clamp(1, 6);
-                        return GridView.count(
-                          crossAxisCount: crossAxisCount,
-                          childAspectRatio: 1.2,
-                          padding: EdgeInsets.all(16),
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          children: itemSubItemMap[selectedItemGroup]!.map((subItem) {
-                            return _buildMenuItem(subItem);
-                          }).toList(),
-                        );
-                      },
-                    ),
-            ),
+        Expanded(
+  child: selectedItemGroup.isEmpty
+      ? _buildEmptyMenuState()
+      : LayoutBuilder(
+          builder: (context, constraints) {
+            // Calculate how many tiles can fit in row
+            int calculated = (constraints.maxWidth / 250).floor();
+
+            // Always at least 3
+            int crossAxisCount = calculated < 3 ? 3 : calculated;
+
+            return GridView.count(
+              crossAxisCount: crossAxisCount,
+              childAspectRatio: 3.0, // 👈 wider look
+              padding: const EdgeInsets.all(16),
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              children: itemSubItemMap[selectedItemGroup]!
+                  .map((subItem) => _buildMenuItem(subItem))
+                  .toList(),
+            );
+          },
+        ),
+)
+
+
           ],
         ),
       ),
@@ -416,79 +431,43 @@ class _POSDashboardState extends State<POSDashboard> with TickerProviderStateMix
     );
   }
 
-  Widget _buildMenuItem(Map<String, dynamic> subItem) {
-    final name = subItem['name'];
-    final price = subItem['price'];
-    final parent = subItem['parent'];
+Widget _buildMenuItem(Map<String, dynamic> subItem) {
+  final name = subItem['name'];
 
-    return Material(
-      elevation: 2,
-      borderRadius: BorderRadius.circular(16),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () => _handleItemTap(subItem),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.white, Color(0xFFF8FAFC)],
-            ),
+  return Material(
+    color: Colors.transparent,
+    child: InkWell(
+      borderRadius: BorderRadius.circular(3),
+      onTap: () => _handleItemTap(subItem),
+      child: Container(
+        decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(8),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1), // subtle shadow
+        blurRadius: 6, // softness
+        spreadRadius: 2, // how much it spreads
+        offset: const Offset(2, 3), // shadow direction (x, y)
+      ),
+    ],
+  ),
+        alignment: Alignment.center,
+        child: Text(
+          name.toUpperCase(),
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: Color(0xFF1E293B),
           ),
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [primaryColor.withOpacity(0.2), secondaryColor.withOpacity(0.2)],
-                  ),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Icon(
-                  Icons.fastfood,
-                  color: primaryColor,
-                  size: 30,
-                ),
-              ),
-              SizedBox(height: 12),
-              Text(
-                name,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: textPrimary,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(height: 8),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  "₹$price",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          textAlign: TextAlign.center,
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+
 
   Future<void> _handleItemTap(Map<String, dynamic> subItem) async {
     final parent = subItem['parent'];
@@ -934,8 +913,8 @@ Widget _buildEmptyCartState() {
         alignment: WrapAlignment.center,
         children: [
           _actionButton("SAVE", primaryColor, saveSummaryToDB),
-          _actionButton("SAVE & PRINT", Colors.blueGrey, () {}),
-          _actionButton("SAVE & eBILL", secondaryColor, Saveandprint),
+          _actionButton("SAVE & PRINT", Colors.blueGrey, () {saveSummaryToDB();Saveandprint();}),
+          _actionButton("SAVE & eBILL", secondaryColor, () {Saveandprint();saveSummaryToDB();}),
           _actionButton("KOT", accentColor, () {
             Navigator.pop(context, {
               'cart': cartItems.keys.toList(),
