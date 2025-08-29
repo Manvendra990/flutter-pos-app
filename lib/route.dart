@@ -6,6 +6,18 @@ import 'package:posapp/pages/loginpage.dart';
 import 'package:posapp/pages/menuItems/addmenu.dart';
 import 'package:posapp/pages/menuItems/itemTable.dart';
 import 'package:posapp/pages/menuItems/menu.dart';
+import 'package:posapp/pages/operations/BillingUserProfile.dart';
+import 'package:posapp/pages/operations/billkotprint.dart';
+import 'package:posapp/pages/operations/cashFlow.dart';
+import 'package:posapp/pages/operations/currencyConversion.dart';
+import 'package:posapp/pages/operations/customOrderStatus.dart';
+import 'package:posapp/pages/operations/customers.dart';
+import 'package:posapp/pages/operations/deliveryBoys.dart';
+import 'package:posapp/pages/operations/discount.dart';
+import 'package:posapp/pages/operations/dualscreen.dart';
+import 'package:posapp/pages/operations/expense.dart';
+import 'package:posapp/pages/operations/feedback.dart';
+import 'package:posapp/pages/operations/help.dart';
 import 'package:posapp/pages/operations/operationitems.dart';
 import 'package:posapp/pages/report/categorys_summary.dart';
 import 'package:posapp/pages/report/item_summary.dart';
@@ -115,6 +127,79 @@ class _AppRouterState extends State<AppRouter> {
             page = MainLayout(
               onNavigate: _handleNavigation,
               child: ShowItemsPage(),
+            );
+            break;
+            // Operations
+                case 'billinguserprofile':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: BillingUserProfile(),
+            );
+            break;
+                case 'BillKotPrint':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: BillKotPrint(),
+            );
+            break;
+                case 'cashflow':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: CashFlowPage(),
+            );
+            break;
+                case 'currencyconversion':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: CurrencyConversionPage(),
+            );
+            break;
+                case 'customers':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: CustomersPage(),
+            );
+            break;
+                case 'customOrderstatus':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: CustomerOrderStatusPage(),
+            );
+            break;
+                case 'deliveryboys':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: DeliveryboysPage(),
+            );
+            break;
+                case 'discounts':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: DiscountPage(),
+            );
+            break;
+                case 'duelscreen':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: DualScreenPage(),
+            );
+            break;
+                case 'expense':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: ExpensePage(),
+            );
+            break;
+                case 'feedback':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: FeedbackPage(),
+            );
+            break;
+                case 'help':
+            page = MainLayout(
+              onNavigate: _handleNavigation,
+              child: HelpPage(),
             );
             break;
 
